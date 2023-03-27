@@ -4,10 +4,13 @@ const ctx = canvas.getContext('2d')
 const pencileBtn = document.getElementById('pencil-btn')
 const eraserBtn = document.getElementById('eraser-btn')
 const clearBtn = document.getElementById('clear-btn')
+const colorInput = document.getElementById('colorInput')
 
 let isDrawing = false
 let lastX = 0
 let lastY = 0
+
+ctx.strokeStyle = 'red'
 
 function draw(event) {
     if (!isDrawing) return
@@ -31,12 +34,15 @@ function startDrawing(event) {
     // [lastX, lastY] = [event.offsetX, event.offsetY]
 }
 
-function stopDrawing(event) {
+function stopDrawing() {
     isDrawing = false
 }
 
+function changePencileColor() {
+    ctx.strokeStyle = `${colorInput.value}`
+}
+
 function activatePencil() {
-    ctx.strokeStyle = 'red'
     ctx.lineWidth = 2
     pencileBtn.classList.add('active')
     eraserBtn.classList.remove('active')
@@ -61,3 +67,5 @@ canvas.addEventListener('mouseout', stopDrawing)
 pencileBtn.addEventListener('click', activatePencil)
 eraserBtn.addEventListener('click', activateEraser)
 clearBtn.addEventListener('click', clearCanvas)
+
+colorInput.addEventListener('focusout', changePencileColor)
